@@ -12,7 +12,7 @@ fi
 
 #Start uwsgi (This assumes we are already in /opt/healthchecks)
 echo "-----> Starting UWSGI"
-/opt/app-root/bin/uwsgi --ini /opt/rtd/uwsgi.ini
+/usr/sbin/uwsgi --ini /opt/rtd/uwsgi.ini
 echo "-----> UWSGI Started: Check UWSGI health @ 127.0.0.1:1717"
 
 sleep 5 
