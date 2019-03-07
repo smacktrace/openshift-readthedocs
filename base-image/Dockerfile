@@ -35,6 +35,7 @@ RUN yum install -y http://opensource.wandisco.com/centos/7/git/x86_64/wandisco-g
         uwsgi-plugin-python36 \
         libxml2-devel \
         libxslt-devel \
+        unzip \
         && yum clean all -y
 
 #Python setup and configuration
