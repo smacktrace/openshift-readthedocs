@@ -1,2 +1,3 @@
-# openshift-readthedocs
-OpenShift deployment of ReadTheDocs
+# ocprtd
+
+OpenShift Read the docs

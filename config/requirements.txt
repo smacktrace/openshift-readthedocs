@@ -1,0 +1,2 @@
+#Using uwsgi for serving the app
+uwsgi
