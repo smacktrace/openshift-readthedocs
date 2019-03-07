@@ -22,7 +22,7 @@ ENV RTD_ZIP_SOURCE="https://github.com/rtfd/readthedocs.org/archive/master.zip"
 
 
 #We will use an entrypoint to configure Postgres if ENV exists
-ADD docker-entrypoint.sh /sbin
+ADD config/docker-entrypoint.sh /sbin
 
 # This daemon makes sure uwsgi is running properly 
 ADD config/uwsgi-daemon /sbin
@@ -34,11 +34,10 @@ RUN chmod +x /sbin/docker-entrypoint.sh \
 	#&& chmod 0644  /etc/pki/ca-trust/source/anchors/your-ca.pem \
         #&& update-ca-trust
 
-RUN mkdir /opt/rtd \
-	&& curl -L -o /opt/rtd/rtdsource.zip $RTD_ZIP_SOURCE
-
-RUN unzip /opt/rtd/rtdsource.zip -d /opt/rtd/ \
-	&& rm -f /opt/rtd/rtdsource.zip
+RUN mkdir /opt/rtd && \
+        curl -L -o /opt/rtd/rtdsource.zip $RTD_ZIP_SOURCE && \
+        unzip /opt/rtd/rtdsource.zip -d /opt/rtd/ && \
+        rm -f /opt/rtd/rtdsource.zip
 
 ADD config/requirements.txt /opt/rtd/requirements.txt
 ADD config/uwsgi.ini /opt/rtd/uwsgi.ini
@@ -51,10 +50,10 @@ ADD config/uwsgi.ini /opt/rtd/uwsgi.ini
 #	&& cd -
 
 #Install requiremts for RTD
-RUN pip3 install -r /opt/rtd/readthedocs.org-master/requirements.txt
+RUN pip install -r /opt/rtd/readthedocs.org-master/requirements.txt
 
 #Install requirements for other dependicies 
-RUN pip3 install -r /opt/rtd/requirements.txt
+RUN pip install -r /opt/rtd/requirements.txt
 
 RUN chmod -R 777 /var/log/rtd && \
 	chgrp -R 0 /opt  && \
