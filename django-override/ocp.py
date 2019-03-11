@@ -9,7 +9,7 @@ class CommunityDevSettings(CommunityBaseSettings):
 
     """Settings for local development"""
 
-    PRODUCTION_DOMAIN = 'ocp-rtd-ocprtd.192.168.64.4.nip.io'
+    PRODUCTION_DOMAIN = '127.0.0.1:8000'
     WEBSOCKET_HOST = 'localhost:8088'
 
     @property
@@ -22,7 +22,7 @@ class CommunityDevSettings(CommunityBaseSettings):
         }
 
     DONT_HIT_DB = False
-    SECRET_KEY = 'j#3ul#@vc+16#asb%ix53)8j_=zw#*)6nork))s!+%g17*-2jy'
+    SECRET_KEY = '<your key here>'
 
     ACCOUNT_EMAIL_VERIFICATION = 'none'
     SESSION_COOKIE_DOMAIN = None

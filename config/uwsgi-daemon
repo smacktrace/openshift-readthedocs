@@ -2,37 +2,36 @@
 
 # Check to make sure we have the vars we need to start
 if [[ -z "${UWSGIPROBE}" ]]; then
-  echo "Please set the UWSGIPROBE ENV variable and try again"
+  echo "[NOTICE-UWSGI-DAEMON] ----> Please set the UWSGIPROBE ENV variable and try again"
   exit 1
 fi
 
-#Collect static files
-/opt/rtd/readthedocs.org-master/manage.py collectstatic --noinput
-
-
 #Start uwsgi (This assumes we are already in /opt/healthchecks)
-echo "-----> Starting UWSGI"
-/usr/sbin/uwsgi --ini /opt/rtd/uwsgi.ini
-echo "-----> UWSGI Started: Check UWSGI health @ 127.0.0.1:1717"
+echo "[NOTICE-UWSGI-DAEMON] ----> Starting UWSGI"
+/usr/local/bin/uwsgi --ini /opt/rtd/uwsgi.ini
+echo "[NOTICE-UWSGI-DAEMON] ----> Starting UWSGI Monitoring Service @ 127.0.0.1:1717"
 
 sleep 5 
 
+(echo >/dev/tcp/127.0.0.1/1717) &>/dev/null
+if [ $? -eq 0 ]; then
+        echo "[NOTICE-UWSGI-DAEMON] ----> UWSGI Started Successfully"
+else
+        echo "[NOTICE-UWSGI-DAEMON] ----> UWSGI Startup Failed health check @ 127.0.0.1:1717"
+        echo "[NOTICE-UWSGI-DAEMON] ----> Startup Failed. Now Exiting"
+        break
+fi
 
-echo "-----> All Checks Complete - Service Running"
 #Monitor UWSGI to make sure its running
 while true; do
-        HOST=127.0.0.1
-	PORT=1717
  
-	(echo >/dev/tcp/${HOST}/${PORT}) &>/dev/null
+	(echo >/dev/tcp/127.0.0.1/1717) &>/dev/null
 	if [ $? -eq 0 ]; then
 		
-		#echo "UWSGI ALIVE"
 		sleep $UWSGIPROBE
 	else
     		CURRENTTIME=$(date +"%Y-%m-%d %T")
-		echo "**** UWSGI DID NOT RESPOIND TO STATUS CHECK: ${CURRENTTIME} ****"
+		echo "[NOTICE-UWSGI-DAEMON] ----> UWSGI DID NOT RESPOIND TO STATUS CHECK: ${CURRENTTIME}"
 		break
 	fi
 done 
-

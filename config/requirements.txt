@@ -1,2 +1,5 @@
-#Using uwsgi for serving the app
-uwsgi
+#Using gunicorn for serving the app
+gunicorn
+
+#Used for more permanant db over sqlite (postgres)
+psycopg2-binary
