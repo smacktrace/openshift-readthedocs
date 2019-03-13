@@ -22,7 +22,7 @@ class CommunityDevSettings(CommunityBaseSettings):
         }
 
     DONT_HIT_DB = False
-    SECRET_KEY = '<your key here>'
+    SECRET_KEY = 'j#3ul#@vc+16#asb%ix53)8j_=zw#*)6nork))s!+%g17*-2jy'
 
     ACCOUNT_EMAIL_VERIFICATION = 'none'
     SESSION_COOKIE_DOMAIN = None
