@@ -9,20 +9,27 @@ class CommunityDevSettings(CommunityBaseSettings):
 
     """Settings for local development"""
 
-    PRODUCTION_DOMAIN = '127.0.0.1:8000'
+    PRODUCTION_DOMAIN = os.environ['RTD_PRODUCTION_DOMAIN']
     WEBSOCKET_HOST = 'localhost:8088'
 
     @property
     def DATABASES(self):  # noqa
         return {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': os.path.join(self.SITE_ROOT, 'dev.db'),
+            DATABASES = {
+                'default': {
+                    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                    'NAME': os.environ['RTD_DB_NAME'],
+                    'USER': os.environ['RTD_DB_USER'],
+                    'PASSWORD': os.environ['RTD_DB_PASSWORD'],
+                    'HOST': os.environ['RTD_DB_HOST'],
+                    'PORT': '',
+                }
             }
+
         }
 
     DONT_HIT_DB = False
-    SECRET_KEY = 'j#3ul#@vc+16#asb%ix53)8j_=zw#*)6nork))s!+%g17*-2jy'
+    SECRET_KEY = os.environ['RTD_DJANGO_SECRET_KEY']
 
     ACCOUNT_EMAIL_VERIFICATION = 'none'
     SESSION_COOKIE_DOMAIN = None
